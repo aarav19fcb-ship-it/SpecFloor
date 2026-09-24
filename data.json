@@ -7,7 +7,7 @@
     "spec": "32 GB GDDR7 • 512-bit",
     "price": 1949,
     "msrp": 1999,
-    "image": "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800&auto=format&fit=crop&q=80",
+    "image": "https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/graphics-cards/50-series/rtx-5090/geforce-rtx-5090-og-1200x630.jpg",
     "amazon_link": "https://www.amazon.com/s?k=RTX+5090",
     "newegg_link": "https://www.newegg.com/p/pl?d=RTX+5090"
   },
@@ -19,7 +19,7 @@
     "spec": "24 GB GDDR6X • 384-bit",
     "price": 1720,
     "msrp": 1599,
-    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=800&auto=format&fit=crop&q=80",
+    "image": "https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/ada-lovelace/rtx-4090/geforce-rtx-4090-product-photo-001-og-1200x630.jpg",
     "amazon_link": "https://www.amazon.com/s?k=RTX+4090",
     "newegg_link": "https://www.newegg.com/p/pl?d=RTX+4090"
   },
@@ -31,7 +31,7 @@
     "spec": "16 GB GDDR6X • 256-bit",
     "price": 969,
     "msrp": 999,
-    "image": "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=800&auto=format&fit=crop&q=80",
+    "image": "https://pc.watch.impress.co.jp/img/pcw/docs/1565/019/01_o.jpg",
     "amazon_link": "https://www.amazon.com/s?k=RTX+4080+Super",
     "newegg_link": "https://www.newegg.com/p/pl?d=RTX+4080+Super"
   },
@@ -43,7 +43,7 @@
     "spec": "24 GB GDDR6 • 384-bit",
     "price": 899,
     "msrp": 999,
-    "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80",
+    "image": "https://www.amd.com/content/dam/amd/en/images/products/graphics/desktops/radeon-7000-series/amd-radeon-rx-7900xtx.png",
     "amazon_link": "https://www.amazon.com/s?k=RX+7900+XTX",
     "newegg_link": "https://www.newegg.com/p/pl?d=RX+7900+XTX"
   },
