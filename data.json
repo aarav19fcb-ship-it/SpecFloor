@@ -1,74 +1,14 @@
 [
   {
     "type": "gpu",
-    "vendor": "NVIDIA",
-    "family": "RTX 50 Series",
-    "model": "RTX 5090",
-    "spec": "32 GB GDDR7 • 512-bit",
-    "price": 1949,
-    "msrp": 1999,
-    "image": "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=1200&auto=format&fit=crop&q=80",
-    "amazon_link": "https://www.amazon.com/s?k=RTX+5090",
-    "newegg_link": "https://www.newegg.com/p/pl?d=RTX+5090"
-  },
-  {
-    "type": "gpu",
-    "vendor": "NVIDIA",
-    "family": "RTX 40 Series",
-    "model": "RTX 4090",
-    "spec": "24 GB GDDR6X • 384-bit",
-    "price": 1720,
-    "msrp": 1599,
-    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=1200&auto=format&fit=crop&q=80",
-    "amazon_link": "https://www.amazon.com/s?k=RTX+4090",
-    "newegg_link": "https://www.newegg.com/p/pl?d=RTX+4090"
-  },
-  {
-    "type": "gpu",
-    "vendor": "NVIDIA",
-    "family": "RTX 40 Series",
-    "model": "RTX 4080 Super",
-    "spec": "16 GB GDDR6X • 256-bit",
-    "price": 969,
-    "msrp": 999,
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/NVIDIA_GeForce_RTX_4080_FE.jpg/1200px-NVIDIA_GeForce_RTX_4080_FE.jpg",
-    "amazon_link": "https://www.amazon.com/s?k=RTX+4080+Super",
-    "newegg_link": "https://www.newegg.com/p/pl?d=RTX+4080+Super"
-  },
-  {
-    "type": "gpu",
     "vendor": "AMD",
     "family": "RX 7000 Series",
     "model": "RX 7900 XTX",
     "spec": "24 GB GDDR6 • 384-bit",
     "price": 899,
     "msrp": 999,
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/AMD_Radeon_RX_7900_XTX.jpg/1200px-AMD_Radeon_RX_7900_XTX.jpg",
+    "image": "images/rx7900xtx.jpg",
     "amazon_link": "https://www.amazon.com/s?k=RX+7900+XTX",
     "newegg_link": "https://www.newegg.com/p/pl?d=RX+7900+XTX"
-  },
-  {
-    "type": "cpu",
-    "vendor": "AMD",
-    "family": "Ryzen 9000",
-    "model": "Ryzen 7 9800X3D",
-    "spec": "8 Cores • 16 Threads • 104MB Cache",
-    "price": 479,
-    "msrp": 479,
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/AMD_Ryzen_7_7800X3D.jpg/1200px-AMD_Ryzen_7_7800X3D.jpg",
-    "amazon_link": "https://www.amazon.com/s?k=Ryzen+7+9800X3D",
-    "newegg_link": "https://www.newegg.com/p/pl?d=Ryzen+7+9800X3D"
-  },
-  {
-    "type": "cpu",
-    "vendor": "Intel",
-    "family": "Core Ultra 200S",
-    "model": "Core Ultra 9 285K",
-    "spec": "24 Cores • 24 Threads • 5.7 GHz",
-    "price": 589,
-    "msrp": 589,
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Intel_Core_i9-13900K.jpg/1200px-Intel_Core_i9-13900K.jpg",
-    "amazon_link": "https://www.amazon.com/s?k=Core+Ultra+9+285K",
-    "newegg_link": "https://www.newegg.com/p/pl?d=Core+Ultra+9+285K"
   }
 ]
