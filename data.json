@@ -1,0 +1,50 @@
+[
+  {
+    "id": "gpu_1",
+    "type": "gpu",
+    "vendor": "NVIDIA",
+    "family": "RTX 50",
+    "model": "RTX 5090",
+    "spec": "32 GB",
+    "msrp": 1999,
+    "price": 1949,
+    "amazon_link": "https://www.amazon.com/s?k=NVIDIA+RTX+5090",
+    "newegg_link": "https://www.newegg.com/p/pl?d=NVIDIA+RTX+5090"
+  },
+  {
+    "id": "gpu_2",
+    "type": "gpu",
+    "vendor": "NVIDIA",
+    "family": "RTX 40",
+    "model": "RTX 4090",
+    "spec": "24 GB",
+    "msrp": 1599,
+    "price": 1720,
+    "amazon_link": "https://www.amazon.com/s?k=NVIDIA+RTX+4090",
+    "newegg_link": "https://www.newegg.com/p/pl?d=NVIDIA+RTX+4090"
+  },
+  {
+    "id": "cpu_1",
+    "type": "cpu",
+    "vendor": "AMD",
+    "family": "Ryzen 9000",
+    "model": "Ryzen 7 9800X3D",
+    "spec": "AM5 / Zen 5",
+    "msrp": 479,
+    "price": 459,
+    "amazon_link": "https://www.amazon.com/s?k=AMD+Ryzen+7+9800X3D",
+    "newegg_link": "https://www.newegg.com/p/pl?d=AMD+Ryzen+7+9800X3D"
+  },
+  {
+    "id": "cpu_2",
+    "type": "cpu",
+    "vendor": "Intel",
+    "family": "Core Ultra",
+    "model": "Core Ultra 9 285K",
+    "spec": "LGA1851 / Arrow Lake",
+    "msrp": 589,
+    "price": 579,
+    "amazon_link": "https://www.amazon.com/s?k=Intel+Core+Ultra+9+285K",
+    "newegg_link": "https://www.newegg.com/p/pl?d=Intel+Core+Ultra+9+285K"
+  }
+]

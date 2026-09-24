@@ -1,0 +1,14 @@
+<script>
+async function initSpecFloor() {
+  try {
+    // Fetch live data without browser caching
+    const res = await fetch('data.json?t=' + Date.now());
+    const data = await res.json();
+    console.log("SpecFloor live data loaded successfully:", data);
+    // Render your UI with this data array
+  } catch (err) {
+    console.error("Error loading SpecFloor database:", err);
+  }
+}
+document.addEventListener('DOMContentLoaded', initSpecFloor);
+</script>
