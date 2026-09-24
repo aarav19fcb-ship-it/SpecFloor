@@ -1,14 +1,148 @@
-<script>
-async function initSpecFloor() {
-  try {
-    // Fetch live data without browser caching
-    const res = await fetch('data.json?t=' + Date.now());
-    const data = await res.json();
-    console.log("SpecFloor live data loaded successfully:", data);
-    // Render your UI with this data array
-  } catch (err) {
-    console.error("Error loading SpecFloor database:", err);
-  }
-}
-document.addEventListener('DOMContentLoaded', initSpecFloor);
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpecFloor | Hardware Floor Price Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #090a0f; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
+        .card-bg { background-color: #12151e; border: 1px solid #1f2430; }
+        .accent-emerald { color: #10b981; }
+        .accent-amber { color: #f59e0b; }
+    </style>
+</head>
+<body class="p-6 md:p-10 max-w-7xl mx-auto">
+
+    <!-- Header -->
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center pb-8 mb-8 border-b border-gray-800 gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-white">SpecFloor<span class="text-emerald-500">.</span></h1>
+            <p class="text-gray-400 text-sm mt-1">Real-time GPU & CPU Floor Price Tracking • <span class="text-amber-400 font-semibold">SiliconMark™ Score</span></p>
+        </div>
+        <div class="flex gap-2 bg-gray-900 p-1 rounded-lg border border-gray-800">
+            <button id="btn-gpu" onclick="setCategory('gpu')" class="px-5 py-2 rounded-md font-medium text-sm transition-all bg-emerald-600 text-white shadow">GPUs</button>
+            <button id="btn-cpu" onclick="setCategory('cpu')" class="px-5 py-2 rounded-md font-medium text-sm transition-all text-gray-400 hover:text-white">CPUs</button>
+        </div>
+    </header>
+
+    <!-- Filters & Controls -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <input type="text" id="search" oninput="filterItems()" placeholder="Search model (e.g. 5090, 9800X3D)..." class="card-bg px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500">
+        
+        <select id="vendor-filter" onchange="filterItems()" class="card-bg px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500">
+            <option value="ALL">All Vendors</option>
+        </select>
+
+        <select id="sort-order" onchange="filterItems()" class="card-bg px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500">
+            <option value="mark-desc">SiliconMark™ Score (High to Low)</option>
+            <option value="price-asc">Price (Low to High)</option>
+            <option value="price-desc">Price (High to Low)</option>
+        </select>
+    </div>
+
+    <!-- Cards Grid -->
+    <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+    <script>
+        let rawData = [];
+        let activeCategory = 'gpu';
+
+        async function initSpecFloor() {
+            try {
+                // Fetch dynamic data from data.json
+                const res = await fetch('data.json?t=' + Date.now());
+                rawData = await res.json();
+                populateVendorFilter();
+                filterItems();
+            } catch (err) {
+                console.error("Error loading SpecFloor data:", err);
+            }
+        }
+
+        function setCategory(cat) {
+            activeCategory = cat;
+            document.getElementById('btn-gpu').className = cat === 'gpu' ? 'px-5 py-2 rounded-md font-medium text-sm transition-all bg-emerald-600 text-white shadow' : 'px-5 py-2 rounded-md font-medium text-sm transition-all text-gray-400 hover:text-white';
+            document.getElementById('btn-cpu').className = cat === 'cpu' ? 'px-5 py-2 rounded-md font-medium text-sm transition-all bg-emerald-600 text-white shadow' : 'px-5 py-2 rounded-md font-medium text-sm transition-all text-gray-400 hover:text-white';
+            populateVendorFilter();
+            filterItems();
+        }
+
+        function populateVendorFilter() {
+            const select = document.getElementById('vendor-filter');
+            const vendors = activeCategory === 'gpu' ? ['NVIDIA', 'AMD'] : ['AMD', 'Intel'];
+            select.innerHTML = '<option value="ALL">All Vendors</option>' + vendors.map(v => `<option value="${v}">${v}</option>`).join('');
+        }
+
+        function calculateSiliconMark(item) {
+            const priceRatio = item.msrp / item.price;
+            return Math.min(99, Math.max(60, Math.round(priceRatio * 85)));
+        }
+
+        function filterItems() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const vendor = document.getElementById('vendor-filter').value;
+            const sort = document.getElementById('sort-order').value;
+
+            let filtered = rawData.filter(item => {
+                const matchesCat = item.type === activeCategory;
+                const matchesQuery = item.model.toLowerCase().includes(query) || item.family.toLowerCase().includes(query);
+                const matchesVendor = vendor === 'ALL' || item.vendor === vendor;
+                return matchesCat && matchesQuery && matchesVendor;
+            });
+
+            filtered.forEach(i => i.score = calculateSiliconMark(i));
+
+            if (sort === 'mark-desc') filtered.sort((a, b) => b.score - a.score);
+            if (sort === 'price-asc') filtered.sort((a, b) => a.price - b.price);
+            if (sort === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+
+            renderGrid(filtered);
+        }
+
+        function renderGrid(items) {
+            const grid = document.getElementById('grid');
+            if (!items.length) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">No hardware found matching criteria.</div>`;
+                return;
+            }
+
+            grid.innerHTML = items.map(item => {
+                const diff = item.price - item.msrp;
+                const diffText = diff <= 0 ? `<span class="text-emerald-400 font-mono">-$${Math.abs(diff)} vs MSRP</span>` : `<span class="text-red-400 font-mono">+$${diff} vs MSRP</span>`;
+
+                return `
+                <div class="card-bg p-6 rounded-xl flex flex-col justify-between hover:border-gray-700 transition-all">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 px-2 py-1 rounded bg-gray-800 border border-gray-700">${item.vendor} • ${item.family}</span>
+                            <span class="bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold px-2.5 py-1 rounded-md text-xs">SiliconMark™ ${item.score}/100</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1">${item.model}</h3>
+                        <p class="text-gray-400 text-xs mb-4 font-mono">${item.spec}</p>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-800">
+                        <div class="flex justify-between items-baseline mb-4">
+                            <div>
+                                <span class="text-3xl font-extrabold text-white font-mono">$${item.price}</span>
+                                <span class="text-xs text-gray-500 ml-1">MSRP $${item.msrp}</span>
+                            </div>
+                            <div class="text-xs">${diffText}</div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <a href="${item.amazon_link}" target="_blank" class="text-center py-2 px-3 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-medium text-white transition">Amazon</a>
+                            <a href="${item.newegg_link}" target="_blank" class="text-center py-2 px-3 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-medium text-white transition">Newegg</a>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', initSpecFloor);
+    </script>
+</body>
+</html>
