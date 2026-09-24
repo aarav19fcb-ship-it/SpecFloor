@@ -1,50 +1,74 @@
 [
   {
-    "id": "gpu_1",
     "type": "gpu",
     "vendor": "NVIDIA",
-    "family": "RTX 50",
+    "family": "RTX 50 Series",
     "model": "RTX 5090",
-    "spec": "32 GB",
-    "msrp": 1999,
+    "spec": "32 GB GDDR7 • 512-bit",
     "price": 1949,
-    "amazon_link": "https://www.amazon.com/s?k=NVIDIA+RTX+5090",
-    "newegg_link": "https://www.newegg.com/p/pl?d=NVIDIA+RTX+5090"
+    "msrp": 1999,
+    "image": "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800&auto=format&fit=crop&q=80",
+    "amazon_link": "https://www.amazon.com",
+    "newegg_link": "https://www.newegg.com"
   },
   {
-    "id": "gpu_2",
     "type": "gpu",
     "vendor": "NVIDIA",
-    "family": "RTX 40",
+    "family": "RTX 40 Series",
     "model": "RTX 4090",
-    "spec": "24 GB",
-    "msrp": 1599,
+    "spec": "24 GB GDDR6X • 384-bit",
     "price": 1720,
-    "amazon_link": "https://www.amazon.com/s?k=NVIDIA+RTX+4090",
-    "newegg_link": "https://www.newegg.com/p/pl?d=NVIDIA+RTX+4090"
+    "msrp": 1599,
+    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=800&auto=format&fit=crop&q=80",
+    "amazon_link": "https://www.amazon.com",
+    "newegg_link": "https://www.newegg.com"
   },
   {
-    "id": "cpu_1",
+    "type": "gpu",
+    "vendor": "NVIDIA",
+    "family": "RTX 40 Series",
+    "model": "RTX 4080 Super",
+    "spec": "16 GB GDDR6X • 256-bit",
+    "price": 969,
+    "msrp": 999,
+    "image": "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800&auto=format&fit=crop&q=80",
+    "amazon_link": "https://www.amazon.com",
+    "newegg_link": "https://www.newegg.com"
+  },
+  {
+    "type": "gpu",
+    "vendor": "AMD",
+    "family": "RX 7000 Series",
+    "model": "RX 7900 XTX",
+    "spec": "24 GB GDDR6 • 384-bit",
+    "price": 899,
+    "msrp": 999,
+    "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80",
+    "amazon_link": "https://www.amazon.com",
+    "newegg_link": "https://www.newegg.com"
+  },
+  {
     "type": "cpu",
     "vendor": "AMD",
     "family": "Ryzen 9000",
     "model": "Ryzen 7 9800X3D",
-    "spec": "AM5 / Zen 5",
+    "spec": "8 Cores • 16 Threads • 104MB Cache",
+    "price": 479,
     "msrp": 479,
-    "price": 459,
-    "amazon_link": "https://www.amazon.com/s?k=AMD+Ryzen+7+9800X3D",
-    "newegg_link": "https://www.newegg.com/p/pl?d=AMD+Ryzen+7+9800X3D"
+    "image": "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=800&auto=format&fit=crop&q=80",
+    "amazon_link": "https://www.amazon.com",
+    "newegg_link": "https://www.newegg.com"
   },
   {
-    "id": "cpu_2",
     "type": "cpu",
     "vendor": "Intel",
-    "family": "Core Ultra",
+    "family": "Core Ultra 200S",
     "model": "Core Ultra 9 285K",
-    "spec": "LGA1851 / Arrow Lake",
+    "spec": "24 Cores • 24 Threads • 5.7 GHz",
+    "price": 589,
     "msrp": 589,
-    "price": 579,
-    "amazon_link": "https://www.amazon.com/s?k=Intel+Core+Ultra+9+285K",
-    "newegg_link": "https://www.newegg.com/p/pl?d=Intel+Core+Ultra+9+285K"
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "amazon_link": "https://www.amazon.com",
+    "newegg_link": "https://www.newegg.com"
   }
 ]
