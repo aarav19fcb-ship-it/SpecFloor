@@ -1,246 +1,391 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpecFloor | Hardware Floor Price Tracker</title>
-    <meta name="description" content="SpecFloor - Live floor price tracker and SiliconMark™ rating system for GPUs and CPUs.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            background-color: #000000; 
-            color: #f5f5f7; 
-            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-        
-        /* Apple-style metallic border & translucent card */
-        .apple-card { 
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-        }
-        .apple-card:hover {
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
-        }
-        
-        /* Metallic text gradient */
-        .metallic-text {
-            background: linear-gradient(180deg, #ffffff 0%, #8e8e93 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpecFloor — Hardware Floor Price Tracker</title>
+<meta name="description" content="SpecFloor tracks live floor prices and SiliconMark scores for GPUs and CPUs.">
+<link rel="icon" href="data:,">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #050506;
+    --panel: rgba(255,255,255,0.04);
+    --panel-border: rgba(255,255,255,0.09);
+    --ink: #f2f2f4;
+    --ink-dim: #98989f;
+    --ink-faint: #5c5c62;
+    --nvidia: #76b900;
+    --amd: #ff3b30;
+    --intel: #00a3ff;
+    --radius-lg: 22px;
+    --radius-md: 14px;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(760px 420px at 12% -8%, rgba(118,185,0,0.10), transparent 60%),
+      radial-gradient(760px 420px at 88% 0%, rgba(0,163,255,0.09), transparent 60%);
+    background-repeat:no-repeat;
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .mono{ font-family:'JetBrains Mono', ui-monospace, monospace; }
+  a{ color:inherit; text-decoration:none; }
+  ::selection{ background: rgba(118,185,0,0.35); }
 
-        /* Hardware background image container */
-        .card-bg-image {
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
-            opacity: 0.18;
-            filter: grayscale(20%) contrast(120%);
-        }
-        .apple-card:hover .card-bg-image {
-            transform: scale(1.08);
-            opacity: 0.32;
-        }
+  .wrap{ max-width:1180px; margin:0 auto; padding: 28px 20px 80px; }
 
-        .pill-btn-primary {
-            background-color: #0071e3;
-            color: #ffffff;
-            transition: all 0.2s ease;
-        }
-        .pill-btn-primary:hover {
-            background-color: #0077ed;
-            transform: scale(1.02);
-        }
+  header{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:24px; padding-bottom:28px; margin-bottom:28px;
+    border-bottom:1px solid var(--panel-border);
+    flex-wrap:wrap;
+  }
+  .wordmark{
+    font-size:2rem; font-weight:800; letter-spacing:-0.03em; color:var(--ink);
+    display:flex; align-items:center; gap:10px;
+  }
+  .wordmark .dot{ color: var(--nvidia); }
+  .pulse-dot{
+    width:7px; height:7px; border-radius:50%; background: var(--nvidia);
+    box-shadow: 0 0 0 0 rgba(118,185,0,0.6);
+    animation: pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow: 0 0 0 0 rgba(118,185,0,0.55); }
+    70%{ box-shadow: 0 0 0 7px rgba(118,185,0,0); }
+    100%{ box-shadow: 0 0 0 0 rgba(118,185,0,0); }
+  }
+  .tagline{ color:var(--ink-dim); font-size:0.92rem; margin-top:6px; }
+  .tagline b{ color:#d8d8de; font-weight:600; }
 
-        .pill-btn-secondary {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #f5f5f7;
-            transition: all 0.2s ease;
-        }
-        .pill-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.18);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-    </style>
+  .toggle{
+    display:flex; background: var(--panel); border:1px solid var(--panel-border);
+    border-radius: 999px; padding:4px; gap:2px;
+  }
+  .toggle button{
+    border:none; background:transparent; color:var(--ink-dim);
+    font: inherit; font-weight:600; font-size:0.86rem;
+    padding:9px 20px; border-radius:999px; cursor:pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .toggle button.active{ background:#fff; color:#0a0a0b; }
+  .toggle button:not(.active):hover{ color:#fff; }
+
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:26px;
+  }
+  .stat{
+    background:var(--panel); border:1px solid var(--panel-border);
+    border-radius: var(--radius-md); padding:16px 18px;
+  }
+  .stat .label{ font-size:0.74rem; color:var(--ink-faint); font-weight:600; }
+  .stat .value{ font-size:1.5rem; font-weight:700; margin-top:4px; letter-spacing:-0.01em; }
+  .stat .value.accent-green{ color: var(--nvidia); }
+
+  .controls{
+    display:grid; grid-template-columns: 1.4fr 1fr 1fr; gap:12px; margin-bottom:30px;
+  }
+  .controls input, .controls select{
+    width:100%; background: var(--panel); border:1px solid var(--panel-border);
+    color:var(--ink); font:inherit; font-size:0.9rem;
+    padding:13px 16px; border-radius: var(--radius-md);
+    appearance:none; -webkit-appearance:none;
+  }
+  .controls select{
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%2398989f'/></svg>");
+    background-repeat:no-repeat; background-position: right 16px center;
+    padding-right:36px;
+  }
+  .controls input::placeholder{ color: var(--ink-faint); }
+  .controls input:focus, .controls select:focus{
+    outline:none; border-color: rgba(255,255,255,0.35);
+  }
+
+  #grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; }
+  @media (max-width: 920px){ #grid{ grid-template-columns:repeat(2,1fr); } .stats{ grid-template-columns:repeat(2,1fr);} .controls{ grid-template-columns:1fr; } header{flex-direction:column; align-items:flex-start;} }
+  @media (max-width: 600px){ #grid{ grid-template-columns:1fr; } }
+
+  .card{
+    position:relative; overflow:hidden;
+    background: linear-gradient(155deg, rgba(255,255,255,0.055), rgba(255,255,255,0.015));
+    border:1px solid var(--panel-border);
+    border-radius: var(--radius-lg);
+    padding:22px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    min-height:300px;
+    transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+  }
+  .card:hover{
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    transform: translateY(-3px);
+    box-shadow: 0 24px 50px -18px rgba(0,0,0,0.65), 0 0 60px -30px var(--accent);
+  }
+  .card:focus-within{ border-color: color-mix(in srgb, var(--accent) 60%, transparent); }
+
+  .art{
+    position:absolute; inset:0; z-index:0;
+    display:flex; align-items:center; justify-content:center;
+    color: var(--accent);
+    opacity:0.5;
+    transform: scale(1) rotate(0deg);
+    transition: transform 0.7s cubic-bezier(.16,1,.3,1), opacity 0.7s ease;
+    pointer-events:none;
+  }
+  .art svg{ width:78%; height:78%; }
+  .card:hover .art{ transform: scale(1.12) rotate(2deg); opacity:0.72; }
+  .art::after{
+    content:""; position:absolute; inset:0;
+    background: radial-gradient(circle at 50% 40%, transparent 0%, var(--bg) 92%);
+  }
+
+  .card-top, .card-bottom{ position:relative; z-index:2; }
+
+  .tag-row{ display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:16px; }
+  .vendor-tag{
+    font-size:0.72rem; font-weight:600; color:#d6d6dc;
+    background: rgba(255,255,255,0.07); border:1px solid var(--panel-border);
+    padding:5px 11px; border-radius:999px;
+  }
+  .mark-tag{
+    font-size:0.72rem; font-weight:700; color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    padding:5px 11px; border-radius:999px;
+    display:flex; align-items:center; gap:5px;
+  }
+  .mark-tag span{ font-family:'JetBrains Mono', monospace; }
+
+  .model-name{ font-size:1.55rem; font-weight:700; letter-spacing:-0.015em; line-height:1.15; margin:0 0 4px; }
+  .spec-line{ font-size:0.8rem; color:var(--ink-dim); font-family:'JetBrains Mono', monospace; margin:0; }
+
+  .card-bottom{ padding-top:16px; border-top:1px solid var(--panel-border); margin-top:16px; }
+  .price-row{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:14px; }
+  .price{ font-size:2rem; font-weight:800; font-family:'JetBrains Mono', monospace; letter-spacing:-0.02em; }
+  .msrp{ font-size:0.75rem; color:var(--ink-faint); margin-top:2px; }
+  .delta{
+    font-size:0.72rem; font-weight:700; font-family:'JetBrains Mono', monospace;
+    padding:5px 10px; border-radius:999px;
+  }
+  .delta.down{ color:#5fe08a; background:rgba(95,224,138,0.1); border:1px solid rgba(95,224,138,0.28); }
+  .delta.up{ color:#ff6b6b; background:rgba(255,107,107,0.1); border:1px solid rgba(255,107,107,0.28); }
+
+  .buy-row{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .buy-row a{
+    text-align:center; padding:11px 10px; border-radius:999px;
+    font-size:0.78rem; font-weight:700;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .buy-primary{ background:#fff; color:#0a0a0b; }
+  .buy-primary:hover{ transform: scale(1.02); background:#e7e7ea; }
+  .buy-secondary{ background:transparent; border:1px solid var(--panel-border); color:var(--ink); }
+  .buy-secondary:hover{ border-color:rgba(255,255,255,0.4); }
+
+  .empty{ grid-column:1/-1; text-align:center; padding:70px 20px; color:var(--ink-faint); }
+  .empty b{ color:var(--ink-dim); display:block; margin-bottom:4px; font-size:1rem; }
+
+  footer{ margin-top:50px; padding-top:20px; border-top:1px solid var(--panel-border); color:var(--ink-faint); font-size:0.78rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
 </head>
-<body class="min-h-screen p-4 md:p-12 max-w-7xl mx-auto">
+<body>
+<div class="wrap">
 
-    <!-- Header Navigation -->
-    <header class="flex flex-col md:flex-row justify-between items-start md:items-center pb-8 mb-10 border-b border-white/10 gap-6">
-        <div>
-            <h1 class="text-4xl font-extrabold tracking-tight metallic-text">SpecFloor<span class="text-blue-500">.</span></h1>
-            <p class="text-gray-400 text-sm mt-1.5 font-normal tracking-wide">Pro Hardware Floor Tracking • <span class="text-amber-400 font-semibold">SiliconMark™ Score</span></p>
-        </div>
-
-        <!-- Category Toggle -->
-        <div class="flex bg-white/5 p-1 rounded-full border border-white/10 backdrop-blur-md">
-            <button id="btn-gpu" onclick="setCategory('gpu')" class="px-7 py-2 rounded-full font-medium text-sm transition-all pill-btn-primary">GPUs</button>
-            <button id="btn-cpu" onclick="setCategory('cpu')" class="px-7 py-2 rounded-full font-medium text-sm transition-all text-gray-400 hover:text-white">CPUs</button>
-        </div>
-    </header>
-
-    <!-- Top Stats Banner -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-        <div class="apple-card p-5 rounded-3xl">
-            <div class="text-gray-400 text-xs font-semibold tracking-wider uppercase">Tracked Devices</div>
-            <div id="stat-count" class="text-3xl font-bold font-mono text-white mt-1">--</div>
-        </div>
-        <div class="apple-card p-5 rounded-3xl">
-            <div class="text-gray-400 text-xs font-semibold tracking-wider uppercase">Value Leader</div>
-            <div id="stat-top-pick" class="text-xl font-bold text-amber-400 mt-1 truncate">--</div>
-        </div>
-        <div class="apple-card p-5 rounded-3xl">
-            <div class="text-gray-400 text-xs font-semibold tracking-wider uppercase">Lowest Floor</div>
-            <div id="stat-min-price" class="text-3xl font-bold font-mono text-emerald-400 mt-1">--</div>
-        </div>
-        <div class="apple-card p-5 rounded-3xl">
-            <div class="text-gray-400 text-xs font-semibold tracking-wider uppercase">Market State</div>
-            <div class="text-2xl font-bold font-mono text-emerald-400 mt-1">Below MSRP</div>
-        </div>
+  <header>
+    <div>
+      <div class="wordmark"><span class="pulse-dot"></span>SpecFloor<span class="dot">.</span></div>
+      <div class="tagline">Live floor prices, tracked daily · <b>SiliconMark</b> value scoring</div>
     </div>
-
-    <!-- Search & Filter Controls -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-        <input type="text" id="search" oninput="filterItems()" placeholder="Search GPU or CPU..." class="apple-card px-5 py-3.5 rounded-2xl text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition">
-        
-        <select id="vendor-filter" onchange="filterItems()" class="apple-card px-5 py-3.5 rounded-2xl text-sm text-white focus:outline-none focus:border-blue-500 transition">
-            <option value="ALL">All Vendors</option>
-        </select>
-
-        <select id="sort-order" onchange="filterItems()" class="apple-card px-5 py-3.5 rounded-2xl text-sm text-white focus:outline-none focus:border-blue-500 transition">
-            <option value="mark-desc">SiliconMark™ Score (High to Low)</option>
-            <option value="price-asc">Price (Low to High)</option>
-            <option value="price-desc">Price (High to Low)</option>
-        </select>
+    <div class="toggle" role="tablist">
+      <button id="btn-gpu" class="active" onclick="setCategory('gpu')">GPUs</button>
+      <button id="btn-cpu" onclick="setCategory('cpu')">CPUs</button>
     </div>
+  </header>
 
-    <!-- Hardware Cards Grid -->
-    <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  <div class="stats">
+    <div class="stat"><div class="label">Tracked</div><div class="value" id="stat-count">—</div></div>
+    <div class="stat"><div class="label">Best value</div><div class="value" id="stat-top-pick" style="font-size:1.1rem; margin-top:8px;">—</div></div>
+    <div class="stat"><div class="label">Lowest floor</div><div class="value accent-green" id="stat-min-price">—</div></div>
+    <div class="stat"><div class="label">Market trend</div><div class="value accent-green" style="font-size:1.15rem; margin-top:8px;">↓ Below MSRP</div></div>
+  </div>
 
-    <script>
-        let rawData = [];
-        let activeCategory = 'gpu';
+  <div class="controls">
+    <input type="text" id="search" oninput="filterItems()" placeholder="Search a model, e.g. 4090 or 9800X3D">
+    <select id="vendor-filter" onchange="filterItems()"></select>
+    <select id="sort-order" onchange="filterItems()">
+      <option value="mark-desc">Sort: SiliconMark, high to low</option>
+      <option value="price-asc">Sort: Price, low to high</option>
+      <option value="price-desc">Sort: Price, high to low</option>
+    </select>
+  </div>
 
-        async function initSpecFloor() {
-            try {
-                const res = await fetch('./data.json?t=' + Date.now());
-                rawData = await res.json();
-                populateVendorFilter();
-                filterItems();
-            } catch (err) {
-                console.error("Error loading SpecFloor dataset:", err);
-            }
-        }
+  <div id="grid"></div>
 
-        function setCategory(cat) {
-            activeCategory = cat;
-            document.getElementById('btn-gpu').className = cat === 'gpu' ? 'px-7 py-2 rounded-full font-medium text-sm transition-all pill-btn-primary' : 'px-7 py-2 rounded-full font-medium text-sm transition-all text-gray-400 hover:text-white';
-            document.getElementById('btn-cpu').className = cat === 'cpu' ? 'px-7 py-2 rounded-full font-medium text-sm transition-all pill-btn-primary' : 'px-7 py-2 rounded-full font-medium text-sm transition-all text-gray-400 hover:text-white';
-            populateVendorFilter();
-            filterItems();
-        }
+  <footer>
+    <span>SpecFloor tracks street prices against MSRP. Not a retailer.</span>
+    <span id="updated-at"></span>
+  </footer>
+</div>
 
-        function populateVendorFilter() {
-            const select = document.getElementById('vendor-filter');
-            const vendors = activeCategory === 'gpu' ? ['NVIDIA', 'AMD'] : ['AMD', 'Intel'];
-            select.innerHTML = '<option value="ALL">All Vendors</option>' + vendors.map(v => `<option value="${v}">${v}</option>`).join('');
-        }
+<script>
+let rawData = [];
+let activeCategory = 'gpu';
 
-        function calculateSiliconMark(item) {
-            const priceRatio = item.msrp / item.price;
-            return Math.min(99, Math.max(60, Math.round(priceRatio * 85)));
-        }
+const VENDOR_COLOR = { NVIDIA: '#76b900', AMD: '#ff3b30', Intel: '#00a3ff' };
 
-        function updateStats(items) {
-            if (!items.length) return;
-            document.getElementById('stat-count').innerText = items.length;
-            const top = [...items].sort((a,b) => b.score - a.score)[0];
-            document.getElementById('stat-top-pick').innerText = top ? top.model : '--';
-            const lowest = Math.min(...items.map(i => i.price));
-            document.getElementById('stat-min-price').innerText = `$${lowest}`;
-        }
+function artFor(type){
+  if (type === 'gpu'){
+    return `<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="72" stroke="currentColor" stroke-width="1.4" opacity="0.55"/>
+      <circle cx="100" cy="100" r="46" stroke="currentColor" stroke-width="1.4" opacity="0.75"/>
+      <circle cx="100" cy="100" r="7" fill="currentColor" opacity="0.9"/>
+      ${Array.from({length:9}).map((_,i)=>{
+        const a = (i/9)*Math.PI*2;
+        const x1 = 100 + Math.cos(a)*14, y1 = 100 + Math.sin(a)*14;
+        const x2 = 100 + Math.cos(a+0.5)*46, y2 = 100 + Math.sin(a+0.5)*46;
+        return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)} Q ${(100+Math.cos(a+0.25)*30).toFixed(1)} ${(100+Math.sin(a+0.25)*30).toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}" stroke="currentColor" stroke-width="2" opacity="0.6"/>`;
+      }).join('')}
+      <rect x="14" y="86" width="26" height="28" rx="4" stroke="currentColor" stroke-width="1.4" opacity="0.4"/>
+      <rect x="160" y="86" width="26" height="28" rx="4" stroke="currentColor" stroke-width="1.4" opacity="0.4"/>
+    </svg>`;
+  }
+  return `<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="58" y="58" width="84" height="84" rx="6" stroke="currentColor" stroke-width="1.6" opacity="0.75"/>
+    <rect x="76" y="76" width="48" height="48" rx="3" stroke="currentColor" stroke-width="1.3" opacity="0.55"/>
+    <rect x="88" y="88" width="24" height="24" fill="currentColor" opacity="0.35"/>
+    ${Array.from({length:8}).map((_,i)=>{
+      const off = 66 + i*10;
+      return `<line x1="${off}" y1="30" x2="${off}" y2="58" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+              <line x1="${off}" y1="142" x2="${off}" y2="170" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+              <line x1="30" y1="${off}" x2="58" y2="${off}" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+              <line x1="142" y1="${off}" x2="170" y2="${off}" stroke="currentColor" stroke-width="2" opacity="0.5"/>`;
+    }).join('')}
+  </svg>`;
+}
 
-        function filterItems() {
-            const query = document.getElementById('search').value.toLowerCase();
-            const vendor = document.getElementById('vendor-filter').value;
-            const sort = document.getElementById('sort-order').value;
+async function initSpecFloor(){
+  try{
+    const res = await fetch('./data.json?t=' + Date.now());
+    rawData = await res.json();
+    populateVendorFilter();
+    filterItems();
+    const el = document.getElementById('updated-at');
+    if (el) el.textContent = 'Updated ' + new Date().toLocaleDateString(undefined, { month:'short', day:'numeric' });
+  }catch(err){
+    console.error('Error loading SpecFloor dataset:', err);
+    document.getElementById('grid').innerHTML =
+      `<div class="empty"><b>Couldn't load the price data.</b>Check that data.json sits next to index.html in the repo.</div>`;
+  }
+}
 
-            let filtered = rawData.filter(item => {
-                const matchesCat = item.type === activeCategory;
-                const matchesQuery = item.model.toLowerCase().includes(query) || item.family.toLowerCase().includes(query);
-                const matchesVendor = vendor === 'ALL' || item.vendor === vendor;
-                return matchesCat && matchesQuery && matchesVendor;
-            });
+function setCategory(cat){
+  activeCategory = cat;
+  document.getElementById('btn-gpu').classList.toggle('active', cat === 'gpu');
+  document.getElementById('btn-cpu').classList.toggle('active', cat === 'cpu');
+  populateVendorFilter();
+  filterItems();
+}
 
-            filtered.forEach(i => i.score = calculateSiliconMark(i));
+function populateVendorFilter(){
+  const select = document.getElementById('vendor-filter');
+  const vendors = activeCategory === 'gpu' ? ['NVIDIA', 'AMD'] : ['AMD', 'Intel'];
+  select.innerHTML = '<option value="ALL">All vendors</option>' +
+    vendors.map(v => `<option value="${v}">${v}</option>`).join('');
+}
 
-            if (sort === 'mark-desc') filtered.sort((a, b) => b.score - a.score);
-            if (sort === 'price-asc') filtered.sort((a, b) => a.price - b.price);
-            if (sort === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+function calculateSiliconMark(item){
+  const priceRatio = item.msrp / item.price;
+  return Math.min(99, Math.max(60, Math.round(priceRatio * 85)));
+}
 
-            updateStats(filtered);
-            renderGrid(filtered);
-        }
+function updateStats(items){
+  if (!items.length){
+    document.getElementById('stat-count').textContent = '0';
+    document.getElementById('stat-top-pick').textContent = '—';
+    document.getElementById('stat-min-price').textContent = '—';
+    return;
+  }
+  document.getElementById('stat-count').textContent = items.length;
+  const top = [...items].sort((a,b) => b.score - a.score)[0];
+  document.getElementById('stat-top-pick').textContent = top ? top.model : '—';
+  const lowest = Math.min(...items.map(i => i.price));
+  document.getElementById('stat-min-price').textContent = `$${lowest.toLocaleString()}`;
+}
 
-        function renderGrid(items) {
-            const grid = document.getElementById('grid');
-            if (!items.length) {
-                grid.innerHTML = `<div class="col-span-full text-center py-20 text-gray-500 font-medium">No matching hardware found.</div>`;
-                return;
-            }
+function filterItems(){
+  const query = document.getElementById('search').value.toLowerCase().trim();
+  const vendor = document.getElementById('vendor-filter').value;
+  const sort = document.getElementById('sort-order').value;
 
-            grid.innerHTML = items.map(item => {
-                const diff = item.price - item.msrp;
-                const diffBadge = diff <= 0 
-                    ? `<span class="text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full font-mono text-xs">-$${Math.abs(diff)} vs MSRP</span>`
-                    : `<span class="text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full font-mono text-xs">+$${diff} vs MSRP</span>`;
+  let filtered = rawData.filter(item => {
+    const matchesCat = item.type === activeCategory;
+    const matchesQuery = !query || item.model.toLowerCase().includes(query) || item.family.toLowerCase().includes(query);
+    const matchesVendor = vendor === 'ALL' || !vendor || item.vendor === vendor;
+    return matchesCat && matchesQuery && matchesVendor;
+  });
 
-                return `
-                <div class="apple-card relative overflow-hidden p-7 rounded-3xl flex flex-col justify-between transition-all duration-500 group">
-                    
-                    <!-- Translucent Metallic Background Hardware Image -->
-                    <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden">
-                        <img src="${item.image}" alt="${item.model}" class="card-bg-image w-full h-full object-cover rounded-3xl" />
-                    </div>
+  filtered.forEach(i => i.score = calculateSiliconMark(i));
 
-                    <!-- Card Content Layer -->
-                    <div class="relative z-10">
-                        <div class="flex justify-between items-center mb-5">
-                            <span class="text-xs font-semibold uppercase tracking-widest text-gray-300 bg-white/10 px-3 py-1 rounded-full border border-white/10 backdrop-blur-md">${item.vendor} • ${item.family}</span>
-                            <span class="bg-amber-400/10 border border-amber-400/30 text-amber-300 font-bold px-3 py-1 rounded-full text-xs backdrop-blur-md">
-                                SiliconMark™ <span class="text-white font-mono text-sm">${item.score}</span>
-                            </span>
-                        </div>
-                        <h3 class="text-3xl font-extrabold text-white mb-1 tracking-tight metallic-text">${item.model}</h3>
-                        <p class="text-gray-400 text-xs mb-6 font-mono">${item.spec}</p>
-                    </div>
+  if (sort === 'mark-desc') filtered.sort((a,b) => b.score - a.score);
+  if (sort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+  if (sort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
 
-                    <div class="relative z-10 pt-4 border-t border-white/10">
-                        <div class="flex justify-between items-baseline mb-6">
-                            <div>
-                                <span class="text-4xl font-extrabold text-white font-mono tracking-tight">$${item.price}</span>
-                                <span class="text-xs text-gray-400 block font-normal mt-1">MSRP $${item.msrp}</span>
-                            </div>
-                            <div>${diffBadge}</div>
-                        </div>
+  updateStats(filtered);
+  renderGrid(filtered);
+}
 
-                        <div class="grid grid-cols-2 gap-3">
-                            <a href="${item.amazon_link}" target="_blank" class="text-center py-2.5 px-4 rounded-full pill-btn-primary text-xs font-semibold tracking-wide">Buy Amazon</a>
-                            <a href="${item.newegg_link}" target="_blank" class="text-center py-2.5 px-4 rounded-full pill-btn-secondary text-xs font-semibold tracking-wide">Buy Newegg</a>
-                        </div>
-                    </div>
-                </div>
-                `;
-            }).join('');
-        }
+function renderGrid(items){
+  const grid = document.getElementById('grid');
+  if (!items.length){
+    grid.innerHTML = `<div class="empty"><b>No hardware matches that search.</b>Try a different model name or clear the filter.</div>`;
+    return;
+  }
 
-        document.addEventListener('DOMContentLoaded', initSpecFloor);
-    </script>
+  grid.innerHTML = items.map(item => {
+    const diff = item.price - item.msrp;
+    const accent = VENDOR_COLOR[item.vendor] || '#8a8a90';
+    const deltaBadge = diff <= 0
+      ? `<span class="delta down">−$${Math.abs(diff)} vs MSRP</span>`
+      : `<span class="delta up">+$${diff} vs MSRP</span>`;
+
+    return `
+    <div class="card" style="--accent:${accent}">
+      <div class="art">${artFor(item.type)}</div>
+      <div class="card-top">
+        <div class="tag-row">
+          <span class="vendor-tag">${item.vendor} — ${item.family}</span>
+          <span class="mark-tag">SiliconMark <span>${item.score}</span></span>
+        </div>
+        <h3 class="model-name">${item.model}</h3>
+        <p class="spec-line">${item.spec}</p>
+      </div>
+      <div class="card-bottom">
+        <div class="price-row">
+          <div>
+            <div class="price">$${item.price.toLocaleString()}</div>
+            <div class="msrp">MSRP $${item.msrp.toLocaleString()}</div>
+          </div>
+          ${deltaBadge}
+        </div>
+        <div class="buy-row">
+          <a class="buy-primary" href="${item.amazon_link}" target="_blank" rel="noopener">Amazon</a>
+          <a class="buy-secondary" href="${item.newegg_link}" target="_blank" rel="noopener">Newegg</a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+document.addEventListener('DOMContentLoaded', initSpecFloor);
+</script>
 </body>
 </html>
