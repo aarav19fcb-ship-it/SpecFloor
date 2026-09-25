@@ -13,6 +13,17 @@
   {
     "type": "gpu",
     "vendor": "NVIDIA",
+    "family": "RTX 50 Series",
+    "model": "RTX 5080",
+    "spec": "16 GB GDDR7 · 256-bit bus",
+    "price": 999,
+    "msrp": 999,
+    "amazon_link": "https://www.amazon.com/s?k=RTX+5080",
+    "newegg_link": "https://www.newegg.com/p/pl?d=RTX+5080"
+  },
+  {
+    "type": "gpu",
+    "vendor": "NVIDIA",
     "family": "RTX 40 Series",
     "model": "RTX 4090",
     "spec": "24 GB GDDR6X · 384-bit bus",
@@ -34,6 +45,28 @@
   },
   {
     "type": "gpu",
+    "vendor": "NVIDIA",
+    "family": "RTX 40 Series",
+    "model": "RTX 4070 Ti Super",
+    "spec": "16 GB GDDR6X · 256-bit bus",
+    "price": 789,
+    "msrp": 799,
+    "amazon_link": "https://www.amazon.com/s?k=RTX+4070+Ti+Super",
+    "newegg_link": "https://www.newegg.com/p/pl?d=RTX+4070+Ti+Super"
+  },
+  {
+    "type": "gpu",
+    "vendor": "NVIDIA",
+    "family": "RTX 40 Series",
+    "model": "RTX 4070 Super",
+    "spec": "12 GB GDDR6X · 192-bit bus",
+    "price": 589,
+    "msrp": 599,
+    "amazon_link": "https://www.amazon.com/s?k=RTX+4070+Super",
+    "newegg_link": "https://www.newegg.com/p/pl?d=RTX+4070+Super"
+  },
+  {
+    "type": "gpu",
     "vendor": "AMD",
     "family": "RX 7000 Series",
     "model": "RX 7900 XTX",
@@ -42,6 +75,39 @@
     "msrp": 999,
     "amazon_link": "https://www.amazon.com/s?k=RX+7900+XTX",
     "newegg_link": "https://www.newegg.com/p/pl?d=RX+7900+XTX"
+  },
+  {
+    "type": "gpu",
+    "vendor": "AMD",
+    "family": "RX 7000 Series",
+    "model": "RX 7900 XT",
+    "spec": "20 GB GDDR6 · 320-bit bus",
+    "price": 689,
+    "msrp": 899,
+    "amazon_link": "https://www.amazon.com/s?k=RX+7900+XT",
+    "newegg_link": "https://www.newegg.com/p/pl?d=RX+7900+XT"
+  },
+  {
+    "type": "gpu",
+    "vendor": "AMD",
+    "family": "RX 7000 Series",
+    "model": "RX 7800 XT",
+    "spec": "16 GB GDDR6 · 256-bit bus",
+    "price": 489,
+    "msrp": 499,
+    "amazon_link": "https://www.amazon.com/s?k=RX+7800+XT",
+    "newegg_link": "https://www.newegg.com/p/pl?d=RX+7800+XT"
+  },
+  {
+    "type": "cpu",
+    "vendor": "AMD",
+    "family": "Ryzen 9000",
+    "model": "Ryzen 9 9950X",
+    "spec": "16 cores · 32 threads · 80 MB cache",
+    "price": 629,
+    "msrp": 649,
+    "amazon_link": "https://www.amazon.com/s?k=Ryzen+9+9950X",
+    "newegg_link": "https://www.newegg.com/p/pl?d=Ryzen+9+9950X"
   },
   {
     "type": "cpu",
@@ -56,6 +122,17 @@
   },
   {
     "type": "cpu",
+    "vendor": "AMD",
+    "family": "Ryzen 7000",
+    "model": "Ryzen 7 7800X3D",
+    "spec": "8 cores · 16 threads · 104 MB cache",
+    "price": 389,
+    "msrp": 449,
+    "amazon_link": "https://www.amazon.com/s?k=Ryzen+7+7800X3D",
+    "newegg_link": "https://www.newegg.com/p/pl?d=Ryzen+7+7800X3D"
+  },
+  {
+    "type": "cpu",
     "vendor": "Intel",
     "family": "Core Ultra 200S",
     "model": "Core Ultra 9 285K",
@@ -64,5 +141,27 @@
     "msrp": 589,
     "amazon_link": "https://www.amazon.com/s?k=Core+Ultra+9+285K",
     "newegg_link": "https://www.newegg.com/p/pl?d=Core+Ultra+9+285K"
+  },
+  {
+    "type": "cpu",
+    "vendor": "Intel",
+    "family": "Core Ultra 200S",
+    "model": "Core Ultra 7 265K",
+    "spec": "20 cores · 20 threads · 5.5 GHz boost",
+    "price": 399,
+    "msrp": 399,
+    "amazon_link": "https://www.amazon.com/s?k=Core+Ultra+7+265K",
+    "newegg_link": "https://www.newegg.com/p/pl?d=Core+Ultra+7+265K"
+  },
+  {
+    "type": "cpu",
+    "vendor": "Intel",
+    "family": "14th Gen Core",
+    "model": "Core i9-14900K",
+    "spec": "24 cores · 32 threads · 6.0 GHz boost",
+    "price": 529,
+    "msrp": 589,
+    "amazon_link": "https://www.amazon.com/s?k=i9+14900K",
+    "newegg_link": "https://www.newegg.com/p/pl?d=i9+14900K"
   }
 ]
